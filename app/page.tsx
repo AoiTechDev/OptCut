@@ -1,5 +1,5 @@
 "use client";
-import PartItem from "@/components/PartItem";
+import ItemRow from "@/components/ItemRow";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import * as _ from "lodash";
@@ -20,7 +20,15 @@ import { solveCuttingStockProblem } from "@/lib/utils";
 
 
 export default function Home() {
-  const [partItems, setPartItems] = useState<PartItemType[]>([
+  const [demandItems , setDemandItems] = useState<PartItemType[]>([
+    {
+      id: 1,
+      length: 0,
+      quantity: 0,
+      name: "",
+    },
+  ]);
+  const [stockItems, setStockItems] = useState<PartItemType[]>([
     {
       id: 1,
       length: 0,
@@ -29,20 +37,41 @@ export default function Home() {
     },
   ]);
 
-  const handleInputChange = ({ id, field, value }: InputChange) => {
-    const newPartItems = [...partItems];
+  const handleDemandInputChange = ({ id, field, value }: InputChange) => {
+    const newPartItems = [...demandItems];
     const itemIndex = newPartItems.findIndex((item) => item.id === id);
     if (itemIndex > -1) {
       newPartItems[itemIndex] = { ...newPartItems[itemIndex], [field]: value };
-      setPartItems(newPartItems);
+      setDemandItems(newPartItems);
     }
   };
 
-  const addRow = () => {
-    setPartItems([
-      ...partItems,
+  const handleStockInputChange = ({ id, field, value }: InputChange) => {
+    const newPartItems = [...stockItems];
+    const itemIndex = newPartItems.findIndex((item) => item.id === id);
+    if (itemIndex > -1) {
+      newPartItems[itemIndex] = { ...newPartItems[itemIndex], [field]: value };
+      setStockItems(newPartItems);
+    }
+  };
+
+
+  const addDemandItemRow = () => {
+    setDemandItems([
+      ...demandItems,
       {
-        id: partItems.length + 1,
+        id: demandItems.length + 1,
+        length: 0,
+        quantity: 0,
+        name: "",
+      },
+    ]);
+  };
+  const addStockItemRow = () => {
+    setStockItems([
+      ...stockItems,
+      {
+        id: stockItems.length + 1,
         length: 0,
         quantity: 0,
         name: "",
@@ -50,31 +79,48 @@ export default function Home() {
     ]);
   };
 
-  const stockItems: StockItem[] = [
-    {
-      length: 110,
-      quantity: 1000,
-    },
-  ];
+  // const stockItems: StockItem[] = [
+  //   {
+  //     length: 110,
+  //     quantity: 1000,
+  //   },
+  // ];
 
-  const demandItems: DemandItem[] = [
-    {
-      length: 20,
-      quantity: 64,
-    },
-    {
-      length: 50,
-      quantity: 32,
-    },
-    {
-      length: 55,
-      quantity: 26,
-    },
-  ];
+  // const demandItems: DemandItem[] = [
+  //   {
+  //     length: 20,
+  //     quantity: 64,
+  //   },
+  //   {
+  //     length: 50,
+  //     quantity: 32,
+  //   },
+  //   {
+  //     length: 55,
+  //     quantity: 26,
+  //   },
+  // ];
+
+  function convert (stockItems: PartItemType[], demandItems: PartItemType[]): [StockItem[], DemandItem[]] {
+    const stockItemsConverted = stockItems.map((item) => {
+      return {
+        length: item.length,
+        quantity: item.quantity,
+      };
+    });
+
+    const demandItemsConverted = demandItems.map((item) => {
+      return {
+        length: item.length,
+        quantity: item.quantity,
+      };
+    });
+
+    return [stockItemsConverted, demandItemsConverted];
+  }
 
 
 
-console.log(partItems)
   return (
     <div className="w-full max-w-7xl mx-auto h-screen flex flex-col justify-center items-center gap-12">
       <Table>
@@ -88,21 +134,17 @@ console.log(partItems)
           </TableRow>
         </TableHeader>
         <TableBody>
-          <TableRow>
-            <TableCell className="font-medium">1</TableCell>
-            <TableCell>
-              <Input />
-            </TableCell>
-            <TableCell>
-              <Input />
-            </TableCell>
-            <TableCell>
-              <Input />
-            </TableCell>
-            <TableCell className="text-right">X</TableCell>
-          </TableRow>
+        {stockItems.map((item) => (
+            <ItemRow
+              key={item.id}
+              item={item}
+              handleInputChange={handleStockInputChange}
+            />
+          ))}
+        
         </TableBody>
       </Table>
+         <Button onClick={addStockItemRow}>Add Part Item</Button>
       <Table>
         <TableHeader>
           <TableRow>
@@ -114,16 +156,23 @@ console.log(partItems)
           </TableRow>
         </TableHeader>
         <TableBody>
-          {partItems.map((item) => (
-            <PartItem
+          {demandItems.map((item) => (
+            <ItemRow
               key={item.id}
               item={item}
-              handleInputChange={handleInputChange}
+              handleInputChange={handleDemandInputChange}
             />
           ))}
         </TableBody>
       </Table>
-      <Button onClick={addRow}>Add Part Item</Button>
+      <Button onClick={addDemandItemRow}>Add Part Item</Button>
+
+
+      <Button onClick={() => {
+        const [stockItemsConverted, demandItemsConverted] = convert(stockItems, demandItems);
+        const cuttingPatterns = solveCuttingStockProblem(stockItemsConverted, demandItemsConverted);
+        console.log(cuttingPatterns)
+      }}>Cut</Button>
     </div>
   );
 }

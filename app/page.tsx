@@ -22,6 +22,7 @@ export default function Home() {
           items={stockItems.partItems}
           handleInputChange={stockItems.handleInputChange}
           addRow={() => {stockItems.addItemRow('stock')}}
+          deleteRow={stockItems.deleteItemRow}
         />
         <FullTable
           header="Demand / Part Items"
@@ -29,6 +30,7 @@ export default function Home() {
           items={demandItems.partItems}
           handleInputChange={demandItems.handleInputChange}
           addRow={() => demandItems.addItemRow('demand')}
+          deleteRow={demandItems.deleteItemRow}
           cutButton={
             <Button
               onClick={() => {

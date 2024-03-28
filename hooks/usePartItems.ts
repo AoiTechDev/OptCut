@@ -1,10 +1,13 @@
 import { InputChange, PartItemType } from "@/types/types";
 import { useState } from "react";
 
+function generateRandomInt(): number {
+  return Math.floor(Math.random() * 10000001);
+}
 export function usePartItems() {
     const [partItems, setPartItems] = useState<PartItemType[]>([
       {
-        id: 1,
+        id: generateRandomInt(),
         length: 0,
         quantity: 0,
         name: "",
@@ -24,7 +27,7 @@ export function usePartItems() {
       setPartItems([
         ...partItems,
         {
-          id: partItems.length + 1,
+          id: generateRandomInt(),
           length: 0,
           quantity: type === 'stock' ? 9999 : 0,
           name: "",
@@ -32,9 +35,16 @@ export function usePartItems() {
       ]);
     };
   
+
+    const deleteItemRow = (id: number) => {
+      console.log(id)
+      setPartItems(partItems.filter((item) => item.id !== id));
+    }
+
     return {
       partItems,
-      handleInputChange,
+      handleInputChange,    
       addItemRow,
+      deleteItemRow
     };
   }

@@ -1,10 +1,13 @@
 import React from "react";
 import { TableCell, TableRow } from "./ui/table";
 import { Input } from "./ui/input";
+import { LuTrash2 } from "react-icons/lu";
 
 const ItemRow = ({
   item,
   handleInputChange,
+  deleteRow,
+  index
 }: {
   item: {
     id: number;
@@ -12,6 +15,7 @@ const ItemRow = ({
     quantity: number;
     name: string;
   };
+  index: number;
   handleInputChange: (args: {
     id: number;
     field: keyof {
@@ -22,10 +26,11 @@ const ItemRow = ({
     };
     value: string | number;
   }) => void;
+  deleteRow: (id: number) => void;
 }) => {
   return (
     <TableRow>
-      <TableCell className="font-medium">{item.id}</TableCell>
+      <TableCell className="font-medium">{index }</TableCell>
       <TableCell>
         <Input
           type="text"
@@ -68,7 +73,7 @@ const ItemRow = ({
           }
         />
       </TableCell> */}
-      <TableCell className="text-right">X</TableCell>
+      <TableCell className="text-right" onClick={() => deleteRow(item.id)}><LuTrash2 className="text-xl hover:text-red-700 cursor-pointer duration-200"/></TableCell>
     </TableRow>
   );
 };

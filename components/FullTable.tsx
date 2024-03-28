@@ -19,6 +19,7 @@ type FullTableType = {
     value: string | number;
   }) => void;
   addRow: () => void;
+  deleteRow: (id: number) => void;
   cutButton?: React.ReactNode | undefined
 
 };
@@ -28,6 +29,7 @@ const FullTable = ({
   items,
   handleInputChange,
   addRow,
+  deleteRow,
   cutButton,
 }: FullTableType) => {
   return (
@@ -44,11 +46,13 @@ const FullTable = ({
           </TableRow>
         </TableHeader>
         <TableBody>
-          {items.map((item) => (
+          {items.map((item, index) => (
             <ItemRow
-              key={item.id}
+              key={index}
+              index={index}
               item={item}
               handleInputChange={handleInputChange}
+              deleteRow={deleteRow}
             />
           ))}
         </TableBody>

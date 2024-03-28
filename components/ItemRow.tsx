@@ -30,7 +30,7 @@ const ItemRow = ({
 }) => {
   return (
     <TableRow>
-      <TableCell className="font-medium">{index }</TableCell>
+      <TableCell className="font-medium">{index+1 }</TableCell>
       <TableCell>
         <Input
           type="text"

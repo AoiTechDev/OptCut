@@ -4,12 +4,12 @@ import { useState } from "react";
 function generateRandomInt(): number {
   return Math.floor(Math.random() * 10000001);
 }
-export function usePartItems() {
+export function usePartItems(type: 'stock' | 'demand') {
     const [partItems, setPartItems] = useState<PartItemType[]>([
       {
         id: generateRandomInt(),
         length: 0,
-        quantity: 0,
+        quantity: type === 'stock' ? 9999 : 0,
         name: "",
       },
     ]);
@@ -23,7 +23,7 @@ export function usePartItems() {
       }
     };
   
-    const addItemRow = (type: 'stock' | 'demand') => {
+    const addItemRow = () => {
       setPartItems([
         ...partItems,
         {

@@ -2,16 +2,16 @@
 
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import { InputChange, PartItemType } from "@/types/types";
+import { CuttingPattern, InputChange, PartItemType } from "@/types/types";
 import { convert, solveCuttingStockProblem } from "@/lib/utils";
 import FullTable from "@/components/FullTable";
 import { usePartItems } from "@/hooks/usePartItems";
 
 export default function Home() {
-  const demandItems = usePartItems();
-  const stockItems = usePartItems();
+  const demandItems = usePartItems('demand');
+  const stockItems = usePartItems('stock');
 
-
+const [result, setResult] = useState<CuttingPattern[]>([]);
   
   return (
     <div className="w-full px-4 min-[1300px]:px-24 mx-auto min-h-screen flex-col  justify-center items-center gap-12">
@@ -21,7 +21,7 @@ export default function Home() {
           buttonText="Add Stock Item"
           items={stockItems.partItems}
           handleInputChange={stockItems.handleInputChange}
-          addRow={() => {stockItems.addItemRow('stock')}}
+          addRow={stockItems.addItemRow}
           deleteRow={stockItems.deleteItemRow}
         />
         <FullTable
@@ -29,7 +29,7 @@ export default function Home() {
           buttonText="Add Part Item"
           items={demandItems.partItems}
           handleInputChange={demandItems.handleInputChange}
-          addRow={() => demandItems.addItemRow('demand')}
+          addRow={demandItems.addItemRow}
           deleteRow={demandItems.deleteItemRow}
           cutButton={
             <Button
@@ -42,7 +42,7 @@ export default function Home() {
                   stockItemsConverted,
                   demandItemsConverted
                 );
-                console.log(cuttingPatterns);
+                setResult(cuttingPatterns);
               }}
             >
               Cut

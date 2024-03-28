@@ -2,6 +2,7 @@
 import PartItem from "@/components/PartItem";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import * as _ from "lodash";
 import {
   Table,
   TableBody,
@@ -12,30 +13,22 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useState } from "react";
+import { CuttingPattern, DemandItem, InputChange, PartItemType, StockItem } from "@/types/types";
+import { solveCuttingStockProblem } from "@/lib/utils";
+
+
+
 
 export default function Home() {
-  type PartItem = {
-    id: number;
-    partLength: number;
-    quantity: number;
-    name: string;
-  };
-  
-  const [partItems, setPartItems] = useState<PartItem[]>([
+  const [partItems, setPartItems] = useState<PartItemType[]>([
     {
       id: 1,
-      partLength: 0,
+      length: 0,
       quantity: 0,
       name: "",
     },
   ]);
-  
-  type InputChange = {
-    id: number;
-    field: keyof PartItem;
-    value: string | number;
-  };
-  
+
   const handleInputChange = ({ id, field, value }: InputChange) => {
     const newPartItems = [...partItems];
     const itemIndex = newPartItems.findIndex((item) => item.id === id);
@@ -45,20 +38,43 @@ export default function Home() {
     }
   };
 
-
   const addRow = () => {
     setPartItems([
       ...partItems,
       {
         id: partItems.length + 1,
-        partLength: 0,
+        length: 0,
         quantity: 0,
         name: "",
       },
     ]);
   };
 
- 
+  const stockItems: StockItem[] = [
+    {
+      length: 110,
+      quantity: 1000,
+    },
+  ];
+
+  const demandItems: DemandItem[] = [
+    {
+      length: 20,
+      quantity: 64,
+    },
+    {
+      length: 50,
+      quantity: 32,
+    },
+    {
+      length: 55,
+      quantity: 26,
+    },
+  ];
+
+
+
+console.log(partItems)
   return (
     <div className="w-full max-w-7xl mx-auto h-screen flex flex-col justify-center items-center gap-12">
       <Table>
@@ -99,7 +115,11 @@ export default function Home() {
         </TableHeader>
         <TableBody>
           {partItems.map((item) => (
-            <PartItem key={item.id} item={item} handleInputChange={handleInputChange}/>
+            <PartItem
+              key={item.id}
+              item={item}
+              handleInputChange={handleInputChange}
+            />
           ))}
         </TableBody>
       </Table>

@@ -54,7 +54,7 @@ const ItemRow = ({
           }
         />
       </TableCell>
-      <TableCell>
+      {/* <TableCell>
         <Input
           type="text"
           name="name"
@@ -67,7 +67,7 @@ const ItemRow = ({
             })
           }
         />
-      </TableCell>
+      </TableCell> */}
       <TableCell className="text-right">X</TableCell>
     </TableRow>
   );

@@ -39,7 +39,7 @@ const FullTable = ({
             <TableHead className="w-[100px]">LP</TableHead>
             <TableHead>Length</TableHead>
             <TableHead>Quantity</TableHead>
-            <TableHead>Name</TableHead>
+            {/* <TableHead>Name</TableHead> */}
             <TableHead className="text-right"></TableHead>
           </TableRow>
         </TableHeader>

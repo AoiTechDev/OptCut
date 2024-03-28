@@ -5,7 +5,7 @@ import { useState } from "react";
 import { InputChange, PartItemType } from "@/types/types";
 import { convert, solveCuttingStockProblem } from "@/lib/utils";
 import FullTable from "@/components/FullTable";
-import { usePartItems } from "@/hooks/hooks";
+import { usePartItems } from "@/hooks/usePartItems";
 
 export default function Home() {
   const demandItems = usePartItems();
@@ -14,21 +14,21 @@ export default function Home() {
 
   
   return (
-    <div className="w-full px-4 min-[1300px]:px-24 mx-auto h-screen flex-col  justify-center items-center gap-12">
+    <div className="w-full px-4 min-[1300px]:px-24 mx-auto min-h-screen flex-col  justify-center items-center gap-12">
       <div className="flex flex-col min-[1300px]:flex-row justify-center items-center min-[1300px]:items-start h-full gap-12 min-[1300px]:gap-24 min-[1300px]:mt-32">
         <FullTable
           header="Source / Stock Items"
           buttonText="Add Stock Item"
           items={stockItems.partItems}
           handleInputChange={stockItems.handleInputChange}
-          addRow={stockItems.addItemRow}
+          addRow={() => {stockItems.addItemRow('stock')}}
         />
         <FullTable
           header="Demand / Part Items"
           buttonText="Add Part Item"
           items={demandItems.partItems}
           handleInputChange={demandItems.handleInputChange}
-          addRow={demandItems.addItemRow}
+          addRow={() => demandItems.addItemRow('demand')}
           cutButton={
             <Button
               onClick={() => {

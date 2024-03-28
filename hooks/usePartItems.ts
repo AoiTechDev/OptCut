@@ -20,13 +20,13 @@ export function usePartItems() {
       }
     };
   
-    const addItemRow = () => {
+    const addItemRow = (type: 'stock' | 'demand') => {
       setPartItems([
         ...partItems,
         {
           id: partItems.length + 1,
           length: 0,
-          quantity: 0,
+          quantity: type === 'stock' ? 9999 : 0,
           name: "",
         },
       ]);

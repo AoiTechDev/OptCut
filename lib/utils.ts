@@ -122,6 +122,11 @@ export function solveCuttingStockProblem(
 
   while (demandItems.some((item) => item.quantity > 0)) {
     let pattern = patterns.find((pattern) => {
+      // Check if the stock item quantity is not exhausted
+      let stockItem = stockItems.find((i) => i.length === pattern.stockLength);
+      if (!stockItem || stockItem.quantity <= 0) return false;
+
+      // Check if the demand can be satisfied
       return pattern.amountOfDemandItem.every((item) => {
         let demandItem = demandItems.find((i) => i.length === item.length);
         return demandItem && demandItem.quantity >= item.quantity;
@@ -130,13 +135,12 @@ export function solveCuttingStockProblem(
 
     if (!pattern) break;
 
-    for (let item of pattern.amountOfDemandItem) {
-      let stockItem = stockItems.find(
-        (i) => i.length === pattern.stockLength
-      );
-      let demandItem = demandItems.find((i) => i.length === item.length);
+    // Subtract from the stock quantity only when actually using the pattern
+    let stockItem = stockItems.find((i) => i.length === pattern.stockLength);
+    if (stockItem) stockItem.quantity -= 1;
 
-      if (stockItem) stockItem.quantity -= 1;
+    for (let item of pattern.amountOfDemandItem) {
+      let demandItem = demandItems.find((i) => i.length === item.length);
       if (demandItem) demandItem.quantity -= item.quantity;
     }
 
@@ -151,6 +155,9 @@ export function solveCuttingStockProblem(
       solution.push({ ...pattern, quantity: 1 });
     }
   }
+
+  // Filter out stock items with zero quantity
+  solution = solution.filter(pattern => pattern.quantity > 0);
 
   return solution;
 }

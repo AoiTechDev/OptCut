@@ -1,4 +1,4 @@
-import { CuttingPattern, DemandItem, StockItem } from "@/types/types";
+import { CuttingPattern, DemandItem, PartItemType, StockItem } from "@/types/types";
 import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
 
@@ -153,4 +153,26 @@ export function solveCuttingStockProblem(
   }
 
   return solution;
+}
+
+
+export function convert(
+  stockItems: PartItemType[],
+  demandItems: PartItemType[]
+): [StockItem[], DemandItem[]] {
+  const stockItemsConverted = stockItems.map((item) => {
+    return {
+      length: item.length,
+      quantity: item.quantity,
+    };
+  });
+
+  const demandItemsConverted = demandItems.map((item) => {
+    return {
+      length: item.length,
+      quantity: item.quantity,
+    };
+  });
+
+  return [stockItemsConverted, demandItemsConverted];
 }

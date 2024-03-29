@@ -7,21 +7,28 @@ const Result = ({
 }: {
   result: Array<CuttingPattern & QuantityType>;
 }) => {
+  const quantityByLength = result.reduce<Record<number, number>>(
+    (acc, pattern) => {
+      acc[pattern.stockLength] =
+        (acc[pattern.stockLength] || 0) + pattern.quantity;
+      return acc;
+    },
+    {}
+  );
 
-
-
+  
   return (
     <div className="w-full max-w-3xl mx-auto mt-16 space-y-6">
       <div className="space-y-2">
         <h4 className="text-xl font-medium">Stock Items Used:</h4>
         <ul>
-          {result.map((pattern, index) => {
-            return (
+          {Object.entries(quantityByLength).map(
+            ([stockLength, totalQuantity], index) => (
               <li className="text-lg" key={index}>
-                {pattern.stockLength} x {pattern.quantity}
+                {stockLength} x {totalQuantity}
               </li>
-            );
-          })}
+            )
+          )}
         </ul>
       </div>
       <div className="space-y-2">

@@ -61,8 +61,7 @@ export function generateAllCutCombinations(
         (remainingLength / demandItems[demandIndex].length) - bladeSize
       )
 
-      console.log( (remainingLength / demandItems[demandIndex].length) + bladeSize)
-      console.log(maxCuts)
+      
       // Generate all possible combinations of cuts for the current demand item
       for (let cuts = 0; cuts <= maxCuts; cuts++) {
         const newPattern = [...currentPattern];

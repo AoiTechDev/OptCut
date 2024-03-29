@@ -2,18 +2,14 @@
 
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import {
-  CuttingPattern,
-  InputChange,
-  PartItemType,
-  QuantityType,
-} from "@/types/types";
+import { CuttingPattern, QuantityType } from "@/types/types";
 import { convert, solveCuttingStockProblem } from "@/lib/utils";
 import FullTable from "@/components/FullTable";
 import { usePartItems } from "@/hooks/usePartItems";
-import { Input } from "@/components/ui/input";
+
 import Hero from "@/components/Hero";
 import Result from "@/components/Result";
+import ResultBars from "@/components/ResultBars";
 
 export default function Home() {
   const demandItems = usePartItems("demand");
@@ -28,8 +24,6 @@ export default function Home() {
   const [result, setResult] = useState<Array<CuttingPattern & QuantityType>>(
     []
   );
-
-
 
   return (
     <div className="w-full pb-12 px-4 min-[1300px]:px-24  mx-auto min-h-screen flex-col  justify-center items-center gap-12">
@@ -73,53 +67,9 @@ export default function Home() {
           }
         />
       </div>
-      <div className="w-full max-w-3xl mx-auto mt-32 space-y-8 ">
-        {result.map((pattern, index) => {
-          return (
-            <div
-              key={index}
-              className="flex w-full justify-center items-center gap-2 flex-col"
-            >
-              <div className="w-full flex justify-center items-center gap-4 ">
-                <div className="w-24">
-                  {pattern.stockLength} x {pattern.quantity}
-                </div>
-                <div className="w-full bg-gray-700 h-10 flex  text-white font-bold">
-                  {pattern.amountOfDemandItem.map((item, index) => {
-                    return (
-                      <div
-                        className="bg-purple-500"
-                        key={index}
-                        style={{
-                          width: `${Math.ceil(
-                            (item.quantity * item.length * 100) /
-                              pattern.stockLength
-                          )}%`,
-                          height: "100%",
+      <ResultBars result={result} />
 
-                          display: "inline-block",
-                          borderRight: "1px solid white",
-                        }}
-                      >
-                        <div className=" flex justify-center items-center h-full">
-                          {item.length} x {item.quantity}
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-              <div className="w-full text-end">
-                Waste: {pattern.wasteAmount}
-              </div>
-            </div>
-          );
-        })}
-      </div>
-
-      {!!result.length ? (
-      <Result result={result}/>
-      ) : null}
+      {!!result.length ? <Result result={result} /> : null}
     </div>
   );
 }

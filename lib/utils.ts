@@ -1,4 +1,4 @@
-import { CuttingPattern, DemandItem, PartItemType, StockItem } from "@/types/types";
+import { CuttingPattern, DemandItem, PartItemType, QuantityType, StockItem } from "@/types/types";
 import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
 
@@ -187,4 +187,13 @@ export function convert(
   });
 
   return [stockItemsConverted, demandItemsConverted];
+}
+
+
+export function countWaste(result: Array<CuttingPattern & QuantityType>) {
+  let waste = 0;
+  for (let i = 0; i < result.length; i++) {
+    waste += result[i].wasteAmount * result[i].quantity;
+  }
+  return waste;
 }

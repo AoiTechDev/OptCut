@@ -25,3 +25,6 @@ export type CuttingPattern = {
   amountOfDemandItem: StockItem[];
   wasteAmount: number;
 };
+export type QuantityType = {
+  quantity: number;
+};

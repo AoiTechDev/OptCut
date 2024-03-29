@@ -37,7 +37,7 @@ export function usePartItems(type: 'stock' | 'demand') {
   
 
     const deleteItemRow = (id: number) => {
-      console.log(id)
+     
       setPartItems(partItems.filter((item) => item.id !== id));
     }
 

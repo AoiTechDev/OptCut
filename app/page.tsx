@@ -6,10 +6,20 @@ import { CuttingPattern, InputChange, PartItemType } from "@/types/types";
 import { convert, solveCuttingStockProblem } from "@/lib/utils";
 import FullTable from "@/components/FullTable";
 import { usePartItems } from "@/hooks/usePartItems";
+import { Input } from "@/components/ui/input";
+import Hero from "@/components/Hero";
 
 export default function Home() {
   const demandItems = usePartItems("demand");
   const stockItems = usePartItems("stock");
+
+  const [bladeSize, setBladeSize] = useState('');
+
+  const handleBladeSizeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    
+    setBladeSize(e.target.value);
+  }
+
 
   type QuantityType = {
     quantity: number;
@@ -25,9 +35,10 @@ export default function Home() {
     }
     return waste;
   }
-  console.log(result);
+
   return (
     <div className="w-full pb-12 px-4 min-[1300px]:px-24  mx-auto min-h-screen flex-col  justify-center items-center gap-12">
+      <Hero bladeSize={bladeSize} handleBladeSizeChange={handleBladeSizeChange} />
       <div className="flex flex-col min-[1300px]:flex-row justify-center items-center min-[1300px]:items-start h-full gap-12 min-[1300px]:gap-24 min-[1300px]:mt-32">
         <FullTable
           header="Source / Stock Items"
@@ -53,7 +64,8 @@ export default function Home() {
                 );
                 const cuttingPatterns = solveCuttingStockProblem(
                   stockItemsConverted,
-                  demandItemsConverted
+                  demandItemsConverted,
+                  parseFloat(bladeSize)
                 );
                 setResult(cuttingPatterns);
               }}
@@ -65,14 +77,6 @@ export default function Home() {
       </div>
       <div className="w-full max-w-3xl mx-auto mt-32 space-y-8 ">
         {result.map((pattern, index) => {
-          const allSourceItemsLength = stockItems.partItems.map(
-            (item) => item.length
-          );
-          const amount = pattern.amountOfDemandItem.map((item) => [
-            item.length,
-            item.quantity,
-          ]);
-
           return (
             <div
               key={index}
@@ -105,7 +109,7 @@ export default function Home() {
                       </div>
                     );
                   })}
-                  {/* {pattern.quantity} x {pattern.stockLength}{" "} */}
+                 
                 </div>
               </div>
               <div className="w-full text-end">
@@ -142,7 +146,7 @@ export default function Home() {
                   <li key={index} className="flex gap-4">
                     <div className="w-4">{pattern.quantity}</div>
                     <div className="w-4">x</div>
-                    <div >
+                    <div>
                       {pattern.cutLengths.map((cutLength, index) => (
                         <span key={index}>[ {cutLength} ] </span>
                       ))}

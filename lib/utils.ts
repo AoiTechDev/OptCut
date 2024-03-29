@@ -8,7 +8,8 @@ export function cn(...inputs: ClassValue[]) {
 
 export function generateAllCutCombinations(
   stockItems: StockItem[],
-  demandItems: DemandItem[]
+  demandItems: DemandItem[],
+  bladeSize: number = 0
 ): CuttingPattern[] {
   const cuttingPatterns: CuttingPattern[] = [];
 
@@ -57,9 +58,11 @@ export function generateAllCutCombinations(
 
       // Calculate the maximum number of cuts possible for the current demand item
       const maxCuts = Math.floor(
-        remainingLength / demandItems[demandIndex].length
-      );
+        (remainingLength / demandItems[demandIndex].length) - bladeSize
+      )
 
+      console.log( (remainingLength / demandItems[demandIndex].length) + bladeSize)
+      console.log(maxCuts)
       // Generate all possible combinations of cuts for the current demand item
       for (let cuts = 0; cuts <= maxCuts; cuts++) {
         const newPattern = [...currentPattern];
@@ -99,11 +102,13 @@ export function generateAllCutCombinations(
 
 export function sortAllPatterns(
   stockItems: StockItem[],
-  demandItems: DemandItem[]
+  demandItems: DemandItem[],
+  bladeSize: number
 ): CuttingPattern[] {
   const cuttingPatterns: CuttingPattern[] = generateAllCutCombinations(
     stockItems,
-    demandItems
+    demandItems,
+    bladeSize
   );
 
   cuttingPatterns.sort((a, b) => a.wasteAmount - b.wasteAmount);
@@ -114,10 +119,10 @@ export function sortAllPatterns(
 export function solveCuttingStockProblem(
   stockItems: StockItem[],
   demandItems: DemandItem[],
- 
+  bladeSize = 0
 ) {
 
-  const patterns = sortAllPatterns(stockItems, demandItems);
+  const patterns = sortAllPatterns(stockItems, demandItems, bladeSize);
   let solution = [];
 
   while (demandItems.some((item) => item.quantity > 0)) {

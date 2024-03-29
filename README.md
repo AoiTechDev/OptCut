@@ -1,36 +1,26 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# OptCut
 
-## Getting Started
+Simple tool for the cutting stock problem. Implemented using a greedy approach for efficiently accounting for waste and optimizing the use of patterns.
 
-First, run the development server:
+## How to use?
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Basically, you input the quantity and length of your source items, followed by specifying the desired lengths of the demand items. Additionally, you can input the blade thickness for greater precision. Afterward, you click 'CUT', and the algorithm will generate optimal cutting patterns and quantities to minimize waste.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Input your desired lengths and quantities in the control panel.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+![image](https://github.com/AoiTechDev/OptCut/assets/88384089/65512d0b-5ec4-499a-8366-e62e859fa2b6)
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+### The output you receive and the desired patterns.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+![image](https://github.com/AoiTechDev/OptCut/assets/88384089/0c3d811d-ff4f-45a9-8ed3-7fb55d41806f)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
+As mentioned earlier, I implemented a greedy approach to address this issue. Consequently, the results may not be entirely optimal, as my algorithm prioritizes the selection of the best local pattern that meets the given requirements.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Tech Stack
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- `Next.js`
+- `Tailwind CSS`
+- `Typescript`

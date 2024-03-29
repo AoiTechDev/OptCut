@@ -16,7 +16,32 @@ const Result = ({
     {}
   );
 
-  
+  function countAvail(avail: Record<number, number>) {
+    let cnt = 0;
+    Object.entries(avail).map(([stockLength, totalQuantity], index) => {
+      cnt += Number(stockLength) * totalQuantity;
+      return (
+        <li className="text-lg" key={index}>
+          {stockLength} x {totalQuantity}
+        </li>
+      );
+    });
+
+    return cnt;
+  }
+
+  const avail = (
+    ((countAvail(quantityByLength) - countWaste(result)) /
+      countAvail(quantityByLength)) *
+    100
+  ).toFixed(3);
+
+  const waste = (
+    ((countAvail(quantityByLength) -
+      (countAvail(quantityByLength) - countWaste(result))) /
+      countAvail(quantityByLength)) *
+    100
+  ).toFixed(3);
   return (
     <div className="w-full max-w-3xl mx-auto mt-16 space-y-6">
       <div className="space-y-2">
@@ -32,8 +57,9 @@ const Result = ({
         </ul>
       </div>
       <div className="space-y-2">
-        <h4 className="text-xl font-medium">Total Waste Generated:</h4>
-        <span className="text-lg">{countWaste(result)}</span>
+     
+        <div className="text-lg">Avail: {avail}% </div>
+        <div className="text-lg">Waste: {waste}% ({countWaste(result)})</div>
       </div>
       <div className="space-y-2">
         <h4 className="text-xl font-medium">Patters Used:</h4>

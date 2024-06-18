@@ -16,7 +16,6 @@ Basically, you input the quantity and length of your source items, followed by s
 
 ![image](https://github.com/AoiTechDev/OptCut/assets/88384089/0c3d811d-ff4f-45a9-8ed3-7fb55d41806f)
 
-
 As mentioned earlier, I implemented a greedy approach to address this issue. Consequently, the results may not be entirely optimal, as my algorithm prioritizes the selection of the best local pattern that meets the given requirements.
 
 ## Tech Stack

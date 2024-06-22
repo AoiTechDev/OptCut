@@ -4,7 +4,7 @@ Simple tool for the cutting stock problem. Implemented using a greedy approach f
 
 ## How to use
 
-Basically, you input the quantity and length of your source items, followed by specifying the desired lengths of the demand items. Additionally, you can input the blade thickness for greater precision. Afterward, you click 'CUT', and the algorithm will generate optimal cutting patterns and quantities to minimize waste.
+Basically, you provide the quantity and length of your source items, followed by specifying the desired lengths of the demand items. Additionally, you can input the blade thickness for greater precision. Afterward, you click 'CUT', and the algorithm will generate optimal cutting patterns and quantities to minimize waste.
 
 
 ### Input your desired lengths and quantities in the control panel.
